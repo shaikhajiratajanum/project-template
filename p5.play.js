@@ -1444,6 +1444,7 @@ function Sprite(pInst, _x, _y, _w, _h) {
   var pop = pInstBind('pop');
   var colorMode = pInstBind('colorMode');
   var tint = pInstBind('tint');
+  var alphaTint = pInstBind('alphaTint');
   var lerpColor = pInstBind('lerpColor');
   var noStroke = pInstBind('noStroke');
   var rectMode = pInstBind('rectMode');
@@ -2507,7 +2508,14 @@ function Sprite(pInst, _x, _y, _w, _h) {
           push();
           tint(this.tint);
         }
+        if(this.alpha) {
+          push();
+          alphaTint(this.alpha);
+        }
         animations[currentAnimation].draw(0, 0, 0);
+        if(this.alpha) {
+          pop();
+        }
         if(this.tint) {
           pop();
         }
@@ -4089,8 +4097,8 @@ p5.prototype.createEdgeSprites = function() {
 
   var edgeThickness = 100;
 
-  var width = this._curElement.elt.offsetWidth;
-  var height = this._curElement.elt.offsetHeight;
+  var width = this.width;
+  var height = this.height;
 
   this.leftEdge = this.createSprite(-edgeThickness / 2, height / 2, edgeThickness, height);
   this.rightEdge = this.createSprite(width + (edgeThickness / 2), height / 2, edgeThickness, height);
